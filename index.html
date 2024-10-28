@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Terminal Seguro</title>
+    <style>
+        body {
+            background-color: black;
+            color: limegreen;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="password"] {
+            background-color: black;
+            color: limegreen;
+            border: 1px solid limegreen;
+            padding: 10px;
+            font-size: 18px;
+            width: 250px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        button {
+            background-color: black;
+            color: limegreen;
+            border: 1px solid limegreen;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: limegreen;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h2>Digite o código de acesso:</h2>
+    <input type="password" id="codeInput" placeholder="Código">
+    <button onclick="checkCode()">Entrar</button>
+    
+    <script>
+        function checkCode() {
+            const code = document.getElementById("codeInput").value;
+            const correctCode = "69°00'50″S 39°36'22″E"; // Código correto
+
+            if (code === correctCode) {
+                window.location.href = "sala-segura.html";
+            } else {
+                alert("Código incorreto. Tente novamente.");
+            }
+        }
+    </script>
+</body>
+</html>

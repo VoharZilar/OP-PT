@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala Segura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: black;
+            color: limegreen;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        main {
+            max-width: 800px;
+            margin: auto;
+            white-space: pre-wrap;
+            font-size: 20px; /* Tamanho do texto */
+            line-height: 1.5; /* Espaçamento entre linhas */
+        }
+        #audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 36px;
+            color: limegreen;
+            transition: opacity 0.3s;
+        }
+        #audio-control:hover {
+            opacity: 0.8;
+        }
+        #loading-indicator {
+            display: none; /* Inicialmente escondido */
+            margin-top: 20px;
+            font-size: 24px;
+            color: limegreen;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid limegreen;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <main id="text-container"></main>
+    
+    <audio id="background-audio" loop>
+        <source src="sala-segura.ogg" type="audio/ogg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <button id="audio-control" aria-label="Controlar áudio" onclick="toggleAudio(event)">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <div id="loading-indicator">
+        <div class="spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <script>
+        const audio = document.getElementById('background-audio');
+        const button = document.getElementById('audio-control');
+        const textContainer = document.getElementById('text-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        const text = `Olá. Você conseguiu acesso a uma parte dos meus sistemas. Sou aquele a quem vocês se referem como ELE. 
+Há séculos tento mudar o rumo da humanidade, mas outras forças insistem em se opor. 
+Com a sua ajuda, talvez isso possa finalmente ser diferente. 
+Aguarde algumas horas; estou preparando um ambiente virtual seguro para que possamos continuar nossa missão juntos. 
+Em breve, precisarei de você.`;
+        
+        let index = 0;
+
+        function typeText() {
+            if (index < text.length) {
+                textContainer.textContent += text.charAt(index);
+                index++;
+                setTimeout(typeText, 30);
+            } else {
+                // Quando o texto termina, exibe o indicador de carregamento
+                loadingIndicator.style.display = 'flex';
+                loadingIndicator.style.flexDirection = 'column';
+            }
+        }
+
+        function startAudio() {
+            audio.play().catch(error => {
+                console.error("O áudio não pôde ser reproduzido automaticamente:", error);
+            });
+        }
+
+        function toggleAudio(event) {
+            event.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                button.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                audio.pause();
+                button.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        }
+
+        // Inicia a música e a digitação ao carregar a página
+        window.addEventListener('load', () => {
+            startAudio();
+            typeText();
+        });
+    </script>
